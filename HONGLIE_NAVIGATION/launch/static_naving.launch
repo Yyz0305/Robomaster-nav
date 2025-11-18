@@ -1,0 +1,32 @@
+<launch>
+    <include file="$(find livox_ros_driver2)/launch_ROS1/msg_MID360.launch"/>
+     <include file="$(find fast_lio)/launch/get_odom_HONGLIE.launch"/>
+
+    <!-- <include file="$(find HONGLIE_NAVIGATION)/launch/locating.launch"/> -->
+    <node pkg="tf2_ros" 
+          type="static_transform_publisher" 
+          name="map_to_odom" 
+          args="0 0 0 0 0 0 /map /odom " />
+    <node pkg="map_server" 
+          type="map_server" 
+          name="map_server" 
+          args="/home/ubuntu/catkin_ws/src/OUTPUT_MAPS/map.yaml" />
+    <!-- <include file="$(find pcd2pgm)/launch/run.launch"/> -->
+
+    <include file="$(find pointcloud_to_laserscan)/launch/my_sample_node.launch"/>
+
+
+
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true">
+        <rosparam file="/home/ubuntu/catkin_ws/src/nav_pkg/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+        <rosparam file="/home/ubuntu/catkin_ws/src/nav_pkg/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="/home/ubuntu/catkin_ws/src/nav_pkg/config/global_costmap_params.yaml" command="load" />
+        <rosparam file="/home/ubuntu/catkin_ws/src/nav_pkg/config/local_costmap_params.yaml" command="load" />
+        <rosparam file="/home/ubuntu/catkin_ws/src/nav_pkg/config/dwa_local_planner_params.yaml" command="load" />
+        <rosparam file="/home/ubuntu/catkin_ws/src/nav_pkg/config/global_planner_params.yaml" command="load" />
+        <rosparam file="/home/ubuntu/catkin_ws/src/nav_pkg/config/move_base_params.yaml" command="load" />
+    </node>
+    <node pkg="test" type = "test_node" name="test_node" output="screen"/>
+    <node pkg="test" type = "rx_node" name="rx_node" output="screen"/>
+    <node pkg="YOLO" type="shooting.py" name="trash"  /> 
+</launch>
