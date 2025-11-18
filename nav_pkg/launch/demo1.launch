@@ -1,0 +1,22 @@
+<launch>
+
+  <include file="$(find wpr_simulation)/launch/wpb_stage_robocup.launch"/>  
+
+  <!-- <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping"/> -->
+  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+    <!-- 传递参数给gmapping -->
+    <!-- <param name="base_frame" value="base_link" /> -->
+    <param name="odom_topic" value="odom" />
+    <param name="publish_tf" value="true" />
+    <param name="linearUpdate" value="0.1"/>
+    <!-- <param name="initial_pose_x" value="0.0" />
+    <param name="initial_pose_y" value="0.0" />
+    <param name="initial_pose_a" value="0.0" /> -->
+  </node>
+
+  <arg name="rvizconfig" default="$(find wpr_simulation)/rviz/slam.rviz" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)"/>
+
+  <node pkg="wpr_simulation" type="keyboard_vel_ctrl" name="keyboard_vel_ctrl" />
+
+</launch>

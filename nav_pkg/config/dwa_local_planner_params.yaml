@@ -1,0 +1,43 @@
+DWAPlannerROS:
+
+  max_vel_trans: 8.5 #平移速度最大值
+  min_vel_trans: -8.5 #平移速度最小值
+  
+  max_vel_x: 8.5 #x方向最大速度
+  min_vel_x: -8.5 #x方向最小值绝对值,如果为负值表示可以后退
+
+  max_vel_y: 0 #差分驱动机器人y方向最大速度
+  min_vel_y: 0 #差分驱动机器人y方向最小速度
+
+  max_vel_theta: 2.5 #最大角速度
+  min_vel_theta: -2.5 #最小角速度
+
+  acc_lim_x: 2.5 #x方向的加速度
+  acc_lim_y: 0 #y方向的加速度,一般为0
+  acc_lim_theta: 2.5 #旋转加速度
+  acc_lim_trans: 2.5
+#目标容差参数
+  xy_goal_tolerance: 0.5 #距离目标在xy方向与目标点的距离误差
+  yaw_goal_tolerance: 1.5 #距离目标点偏行角允许的误差，单位弧度
+  latch_xy_goal_tolerance: false #设置为true,如果到达容错距离内,机器人就会原地旋转,即使转动是会跑出容错距离外
+#向前模拟参数
+  sim_time: 4.0 #向前仿真轨迹的时间    DWA猜测轨迹长度
+  vx_samples: 10 #x方向速度空间的采样点数
+  vy_samples: 10  #y方向速度空间的采样点数
+  vth_samples: 40 #旋转方向的速度空间采样点数
+#轨迹评分参数
+  path_distance_bias: 32.0     #  定义控制器与给定路径接近程度的权重
+  goal_distance_bias: 24.0      #  定义控制器与局部目标点的接近程度的权重
+  occdist_scale: 0.01            #  定义轨迹曲线和障碍物最近距离的权重
+  forward_point_distance: 0.2 # 0.325 将机器人与目标点连线并延长forward_point_distance距离作为一个评分点
+
+  sim_granularity: 0.025 #步长,轨迹上采样点之间的距离,轨迹上点的密集程度
+  angular_sim_granularity: 0.1 #旋转步长
+
+
+
+  # pdist_scale: 0.5
+
+
+
+

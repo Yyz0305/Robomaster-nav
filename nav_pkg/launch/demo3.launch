@@ -1,0 +1,27 @@
+<launch>
+  <!-- <include file="/home/ryan/laser_odom_amcl/src/all/navigation/amcl/launch/amcl_loc1.launch.xml" /> -->
+  <!-- <node name="map_server" pkg="map_server" type="map_server" args="~/map/carto_ws_fangzhen/map/2d-1.yaml"/> -->
+  
+  
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true">
+    <rosparam file="/home/ubuntu/unilidar_sdk-main/uni_ws/src/nav_pkg/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="/home/ubuntu/unilidar_sdk-main/uni_ws/src/nav_pkg/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="/home/ubuntu/unilidar_sdk-main/uni_ws/src/nav_pkg/config/global_costmap_params.yaml" command="load" />
+    <rosparam file="/home/ubuntu/unilidar_sdk-main/uni_ws/src/nav_pkg/config/local_costmap_params.yaml" command="load" />
+    <rosparam file="/home/ubuntu/unilidar_sdk-main/uni_ws/src/nav_pkg/config/dwa_local_planner_params.yaml" command="load" />
+    <rosparam file="/home/ubuntu/unilidar_sdk-main/uni_ws/src/nav_pkg/config/global_planner_params.yaml" command="load" />
+    <rosparam file="/home/ubuntu/unilidar_sdk-main/uni_ws/src/nav_pkg/config/move_base_params.yaml" command="load" />
+  </node>
+
+  <!-- <node pkg="vel_send" type="send.py" name="send" output = "screen"/> -->
+  <node pkg="test" type = "test_node" name="test_node" output="screen"/>
+  <node pkg ="map_server" type="map_server" name="map_server" args="$(find nav_pkg)/map/MAP.yaml" />
+  
+  <node pkg="tf_trans" type="map3d2map.py" name="map3d2map"/>
+  <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="static_map_to_map_3d_transform" args="0 0 0 0 0 0 1 map map_3d 100" /> -->
+
+  <!-- 下面是配置rviz显示，运行报错就注释掉这行 -->
+  <!-- <node name="rviz" pkg="rviz" type="rviz" required="true" args="-d /home/space/1022.rviz" />  -->
+  <!-- <node pkg="amcl" type="amcl" name="amcl"/> -->
+</launch>
+
