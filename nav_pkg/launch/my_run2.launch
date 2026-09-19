@@ -1,0 +1,57 @@
+<launch>
+
+  <!-- 建立基坐标系 -->
+<!--   
+  <node pkg="tf" type="static_transform_publisher" name="rslidar_base_broadcaster" 
+        args="0 0 0 0 0 0 /map /unilidar_lidar 100" />
+   -->
+  <!-- 不开启rviz -->
+  <!-- <node pkg="rviz" type="rviz" name="rviz" args="-d $(find unitree_lidar_ros)/rviz/view.rviz" /> -->
+
+  <!--  启动雷达-->
+  <node pkg="unitree_lidar_ros" type="unitree_lidar_ros_node"  name="unitree_lidar_ros_node" respawn="true">
+    <rosparam command="load" file="$(find unitree_lidar_ros)/config/config.yaml"/>    
+  </node>
+
+  <!-- 订阅/unilidar/cloud，发布/output -->
+  <node pkg="pcd2pgm"  type="pcd2pgm"  name="pcd2pgm"/>
+
+  <include file="$(find nav_pkg)/launch/point2scan.launch"/>
+
+  <!-- 启动pointcloud2转pointcloud -->
+  <!-- 订阅/unilidar/cloud，发布/cloud1 -->
+  <include file="$(find point_cloud_converter)/launch/point_cloud_converter.launch"/>
+
+  <!-- 启动pointlio建图 -->
+  <include file="$(find point_lio_unilidar)/launch/mapping_unilidar.launch"/>
+
+  <node pkg="tf_trans" type="odom2base_footprint.py" name="odom2base_footprint"/>
+
+  <!-- 启动octomap将三维点云图转为二维 -->
+  <node pkg="octomap_server" type="octomap_server_node" name="octomap_server"> 
+ 
+     <!--resolution in meters per pixel-->
+    <param name="resulution" value="0.05" />
+    
+     <!--name of the fixed frame,needs to be "/map" for SLAM-->
+    <param name="frame_id" type="string" value="map_3d" />
+ 
+     <!--max range/depth resolution of the kinect meters-->
+    <param name="sensor_model/max_range" value="50.0" />
+    <param name="latch" value="true" />
+ 
+     <!--max/min height for occupancy map, should be in meters-->
+    <param name="pointcloud_max_z" value="1.6" />
+    <param name="pointcloud_min_z" value="0.8" />
+ 
+    <param name="graound_filter_angle" value="3.14" />
+ 
+     <!--topic from where pointcloud2 messages are subscribed-->
+    <remap from="/cloud_in" to="/cloud_registered" />
+ 
+  </node>
+
+<include file="$(find nav_pkg)/launch/demo3.launch"/>
+
+<!-- <node pkg ="map_server" type="map_server" name="map_server" args="$(find nav_pkg)/map/MAP.yaml" /> -->
+</launch>

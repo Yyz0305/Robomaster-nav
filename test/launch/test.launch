@@ -1,0 +1,6 @@
+<launch>
+      <node pkg="test" type="test_node" name="test_node"  output="screen" /> 
+      <node pkg="test" type = "rx_node" name="rx_node" output="screen"/>
+      <node pkg="YOLO" type="shooting.py" name="trash"  />
+
+</launch>

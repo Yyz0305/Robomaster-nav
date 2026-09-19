@@ -1,0 +1,10 @@
+<launch>
+    <!-- 加载参数文件 -->
+    <rosparam file="$(find hikrobot_camera)/config/camera.yaml" command="load"/>
+
+    <!-- 启动相机节点 -->
+    <node pkg="hikrobot_camera" type="hikrobot_camera" name="hikrobot_camera" respawn="true" output="screen" /> 
+
+    <!-- 启动测试脚本 -->
+    <node name="py_test" pkg="test" type="py_test.py" output="screen"/>
+</launch>

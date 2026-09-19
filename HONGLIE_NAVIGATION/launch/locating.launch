@@ -1,0 +1,11 @@
+<launch>
+
+    <include file="$(find livox_ros_driver2)/launch_ROS1/msg_MID360.launch"/>
+
+    <include file="$(find fast_lio)/launch/get_odom_HONGLIE.launch"/>
+
+    <include file="$(find hdl_localization)/launch/hdl_localization.launch"/>
+
+    <node launch-prefix="nice" pkg="rviz" type="rviz" name="rviz" args="-d $(find hdl_localization)/rviz/hdl_localization.rviz" />
+
+</launch>

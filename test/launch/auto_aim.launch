@@ -1,0 +1,4 @@
+<launch>
+      <node pkg="YOLO" type="shooting.py" name="trash"  /> 
+      <node pkg="test" type="test_node" name="test_node"  output="screen"/> 
+</launch>
